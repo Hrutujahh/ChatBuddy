@@ -1,0 +1,76 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - bot_challenge
+  - question
+  - depressed
+  - reason_depressed
+  - Dontwannatalk
+  - boring
+  - mood_solitude
+  - gratitude
+  - headache
+  - watching_movie
+  # - just_couldn't sleep
+
+responses:
+  utter_greet:
+    - text: "Hey! How are you?"
+
+  utter_cheer_up:
+    - text: "you should listen music"
+      image: "https://i.imgur.com/nGF1K8f.jpg"
+
+  utter_did_that_help:
+    - text: "Did that help you?"
+
+  utter_happy:
+    - text: "Great, carry on!"
+
+  utter_goodbye:
+    - text: "Bye"
+
+  utter_iamabot:
+    - text: "I am a bot, powered by Rasa."
+
+  utter_answer:
+    - text: "I am good"
+
+  utter_whydepressed:
+    - text: "Depression can be complex. Let's explore what might be contributing to your feelings."
+
+  utter_resolve_depression:
+    - text: "I'm here to support you in overcoming depression. Let's work on finding strategies that can help."
+
+  utter_music_suggestion:
+    - text: "Music can be a great way to unwind. Would you like some suggestions?"
+
+  utter_suggest:
+    - text: "Boredom is common, but there are many things we can do to combat it. Let's explore some options together."
+
+  utter_console:
+    - text: "It's okay to feel lonely sometimes. Remember, I'm here to chat with you whenever you need."
+
+  utter_share_positivity:
+    - text: "I'm glad you're choosing to share your positivity with me. How can I support you further?"
+
+  utter_solitude_quotes:
+    - text: "Here's a quote that might resonate with you: [quote]."
+
+  utter_welcome:
+    - text: "You're welcome! Don't hesitate to reach out if you need anything else."
+
+  utter_headache:
+    - text: "Headaches can be tough to deal with. Have you tried any remedies to alleviate the pain?"
+
+  utter_movie:
+    - text: "Watching a movie can be a great way to relax. What genre are you in the mood for?"
+
+  # utter_couldnt_sleep:
+  #   - text: "I'm sorry to hear that you're having trouble sleeping. Let's see if we can find some solutions together."
