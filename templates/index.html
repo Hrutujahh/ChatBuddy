@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Rasa & Flask Chatbot</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #36799e;
+        background-image: url("bg.png");
+        background-size: 35% auto;
+        /* Cover the entire background */
+        background-position: left bottom 125%;
+        /* Center the background */
+        background-repeat: no-repeat;
+        /* Do not repeat the background image */
+        height: 7vh;
+        /* Make the body fill the viewport height */
+        display: flex;
+        /* flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center; */
+      }
+
+      h1 {
+        font-size: 5rem;
+        color: #660d0d;
+        font-family: Georgia, serif;
+        font-weight: bold;
+        margin-top: 1rem;
+        text-align: center;
+      }
+
+      h3#line {
+        color: rgb(59, 10, 10);
+        font-size: 3rem;
+        font-family: serif;
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        margin-right: 250px;
+        margin-left: 250px;
+        /* Adjust margin as needed */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+
+      .chat-sign-button {
+        /* width: 50px;
+            height: 50px; */
+        /* font-size: 24px; */
+        width: 100px;
+        height: 100px;
+        font-size: 24px;
+        border-radius: 0;
+        background-image: url("botAvatar.png");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+
+      .highlight {
+        /* Add your highlighted styles here */
+        border: 5px solid #310a0a;
+        /* Example: Red border */
+        /* Add any other styles you want to apply when the button is highlighted */
+      }
+
+      .btn {
+        bottom: 20px;
+        right: 20px;
+      }
+
+      #chat-widget {
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      #chat-widget-messages {
+        margin-right: 15px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1>ChatBuddy!</h1>
+      <h3 id="line">
+        "Break the silence surrounding mental health. Engage with our chatbot
+        for personalized insights and support."
+      </h3>
+      <!-- <div class="navbar">
+            <a href="#">BUZZ</a>
+            <a href="#">About Us</a>
+            <a href="#">Contact US</a>
+        </div> -->
+      <!--Chat widget button-->
+      <button
+        id="chat-widget-button"
+        type="button"
+        class="btn btn-primary rounded-circle position-fixed chat-sign-button"
+        onclick="openPopup()"
+      ></button>
+
+      <!--Chatbot-->
+      <div
+        id="chat-widget"
+        class="card position-fixed shadow d-none"
+        style="bottom: 100px; right: 50px; width: 340px; height: 750px"
+      >
+        <div class="card-header bg-primary text-white">
+          Chat with Chatbuddy
+          <button
+            id="chat-widget-close-button"
+            type="button"
+            class="btn-close float-end"
+            aria-label="Close"
+          ></button>
+        </div>
+
+        <div class="card-body" id="chat-widget-messages">
+          <!-- chat messages will be appended here-->
+        </div>
+
+        <div class="card-footer">
+          <input
+            type="text"
+            class="form-control"
+            id="chat-widget-input"
+            placeholder="Type your Message..."
+          />
+        </div>
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        $("#chat-widget-button").addClass("highlight");
+
+        $("#chat-widget-button").on("click", function () {
+          $("#chat-widget").toggleClass("d-none");
+        });
+
+        $("#chat-widget-close-button").on("click", function () {
+          $("#chat-widget").addClass("d-none");
+        });
+
+        //handle User input in the chatbox
+        $("#chat-widget-input").keypress(function (event) {
+          if (event.which === 13) {
+            let userMessage = $("#chat-widget-input").val();
+            $("#chat-widget-input").val("");
+
+            //Append user message to the chatbot
+            $("#chat-widget-messages").append(
+              "<div><strong>You:</strong>" + userMessage + "</div>"
+            );
+
+            //send user message to the server and get bot's response
+
+            $.ajax({
+              type: "POST",
+              url: "/webhook",
+              contentType: "application/json",
+              data: JSON.stringify({ message: userMessage }),
+              success: function (data) {
+                let botResponse = data.response;
+
+                //Append bot's response to the chatbox
+                $("#chat-widget-messages").append(
+                  "<div><strong>Bot:</strong>" + botResponse + "</div>"
+                );
+              },
+
+              error: function () {
+                //Handle error if needed
+              },
+            });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
